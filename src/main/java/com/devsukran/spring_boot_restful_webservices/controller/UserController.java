@@ -4,6 +4,7 @@ import com.devsukran.spring_boot_restful_webservices.entity.User;
 import com.devsukran.spring_boot_restful_webservices.service.UserService;
 import com.devsukran.spring_boot_restful_webservices.service.impl.UserServiceImpl;
 import lombok.AllArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -39,5 +40,25 @@ public class UserController {
         List<User> users=userService.getAllUsers();
         return new ResponseEntity<>(users,HttpStatus.OK);
     }
+
+    // Build Update User REST API
+    @PutMapping("{id}")
+    // http://localhost:8080/api/users/1
+    public ResponseEntity <User> updateUser(@PathVariable("id") Long userId,
+                                           @RequestBody User user){
+        user.setId(userId);
+      User updateUser= userService.updateUser(user);
+      return new ResponseEntity<>(updateUser,HttpStatus.OK);
+
+    }
+
+    //Build Delete User REST API
+    @DeleteMapping("{id}")
+    public ResponseEntity<String>deleteUser(@PathVariable ("id") Long userId){
+        userService.deleteUser(userId);
+        return new ResponseEntity<>("User Successfully deleted!",HttpStatus.OK);
+    }
+
+
 
 }
